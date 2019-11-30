@@ -9,6 +9,132 @@ Sample Input: "314159265 358979323846 26433832 79",["314159265358979323846", "26
 
 Sample Output: Sample output: 2 ("314159265 | 35897932384626433832 | 79")
 
-function numbersInPi(pi,numbers){
 
+3 213
+Time -> O(N^3)
+Space -> O(N + M)
+main(pi, numbers){
+  let numbersTable = {}
+  for(let num of numbers ){
+    numbersTable[num] = true
+  }
+  cache = {}
+  helper()
+  return cache[0] !== Infinity ? cache[0] : -1
 }
+
+helper(pi, numbersTable,cache, idx)
+if(idx === pi.length) {
+  return -1
+}
+if(idx in cache) return cache[idx]
+let minSpaces = Infinity
+for(let i = idx; i < pi.length; i++){
+  let subString = pi.substr(0,i + 1)
+  if(subString in numbersTable){
+    let currMinSpaces = helper(pi,numbersTable,cache, i + 1)
+    minSpaces = Math.min(currMinSpaces + 1, minSpaces )
+  }
+}
+
+cache[idx] = minSpaces
+return cache[idx]
+
+
+
+function numbersInPi(pi,numbers){
+  let numbersOfTable = {}
+  for(let num of numbers){
+    numbersOfTable[num] = true
+  }
+  cache = {}
+  numbersInPiHelper(pi,numbersOfTable,cache,0)
+  return cache[0] !== Infinity ? cache[0] : -1
+}
+
+function numbersInPiHelper(pi,numbersOfTable,cache,idx){
+  if(idx === pi.length){
+    return -1 
+  }
+  if(idx in cache) return cache[idx]
+  let minSpace = Infinity
+  
+  for(let i = idx; i < pi.length; i++){
+    let subString = pi.slice(idx, i + 1)
+    if(subString in numbersOfTable){
+      let currMinSpaces = numbersInPiHelper(pi,numbersOfTable,cache, i + 1)
+      minSpace = Math.min(minSpace, currMinSpaces + 1)
+    }
+  }
+  cache[idx] = minSpace
+  return cache[idx]
+}
+
+
+
+
+
+
+function numbersInPi(pi,numbers){
+  let numbersTable = {}
+  for(let num of numbers){
+    numbersTable[num] = true
+  }
+  
+  cache = {}
+  for(let i = pi.length - 1; i >= 0; i--){
+    numbersInPiHelper(pi,numbersTable,cache,i)
+  }
+  
+  return cache[0] !== Infinity ? cache[0] : -1
+}
+
+function numbersInPiHelper(pi,numbersTable,cache,idx){
+  if(idx === pi.length){
+    return -1
+  }
+  if(idx in cache){
+    return cache[idx]
+  }
+  let minSpaces = Infinity
+  for(let i = idx; i < pi.length; i++){
+    let subString = pi.slice(idx, i + 1)
+    if(subString in numbersTable){
+      let currMinSpace = numbersInPiHelper(pi,numbersTable,cache, i + 1)
+      minSpaces = Math.min(minSpaces, currMinSpace + 1)
+    }
+  }
+  cache[idx] = minSpaces
+  return cache[idx]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
